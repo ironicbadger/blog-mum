@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro build",
-    "build:production": "PUBLIC_ASSET_BASE=https://assets.wayfarer.ktz.me astro build",
+    "build:production": "PUBLIC_ASSET_BASE=https://assets.wayfarer.ktz.me astro build && node scripts/prune-production-assets.mjs",
     "preview": "astro preview --host 127.0.0.1",
     "import:ghost": "node scripts/import-ghost.mjs",
     "check:images": "node scripts/images.mjs check",
