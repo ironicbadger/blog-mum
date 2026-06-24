@@ -25,7 +25,9 @@ Upload the local image archive to R2 with:
 npm run upload:r2
 ```
 
-Cloudflare Pages project `blog-mum` is connected to GitHub and deploys automatically from `main`.
+GitHub Actions builds and deploys `main` to the Cloudflare Pages project `blog-mum`.
+The workflow uses a repository secret named `CLOUDFLARE_API_TOKEN`
+with Cloudflare Pages edit access for account `87f000053c6198ee887e7781685c58f1`.
 
 Build settings:
 
