@@ -25,13 +25,15 @@ Upload the local image archive to R2 with:
 npm run upload:r2
 ```
 
-Cloudflare Pages should use:
+Cloudflare Pages project `blog-mum` is connected to GitHub and deploys automatically from `main`.
+
+Build settings:
 
 ```sh
 npm run build:production
 ```
 
-with output directory:
+Output directory:
 
 ```sh
 dist
