@@ -1,4 +1,4 @@
-import data from '../data/site.json';
+import { siteData as data } from '../data/posts';
 
 function escapeXml(value = '') {
   return value

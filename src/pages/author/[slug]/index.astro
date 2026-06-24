@@ -2,17 +2,18 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PostCard from '../../../components/PostCard.astro';
 import { imagePath } from '../../../components/image';
-import data from '../../../data/site.json';
+import { siteData as data } from '../../../data/posts';
 
 export function getStaticPaths() {
-  const author = data.authors.find((item) => item.slug === 'ann') || data.authors[0];
-  return [
-    { params: { slug: author.slug }, props: { author } },
-  ];
+  return data.authors.map((author) => ({
+    params: { slug: author.slug },
+    props: { author },
+  }));
 }
 
 const { author } = Astro.props;
 const { site, posts } = data;
+const authorPosts = posts.filter((post) => post.author_id === author.id);
 const title = `${author.name} - ${site.title}`;
 ---
 
@@ -25,13 +26,13 @@ const title = `${author.name} - ${site.title}`;
             <img class="author-profile-pic" src={imagePath(author.profile_image)} alt={author.name} />
           )}
           <h1>{author.name}</h1>
-          <p>{posts.length} posts published</p>
+          <p>{authorPosts.length} posts published</p>
           <div class="author-profile-meta"></div>
         </div>
       </header>
 
       <div class="post-feed">
-        {posts.map((post) => (
+        {authorPosts.map((post) => (
           <PostCard post={post} author={author} />
         ))}
       </div>

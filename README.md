@@ -1,42 +1,131 @@
-# The Misadventures of a Heuchera Addict
+# Wayfarer Static Blog
 
-Static Astro copy of the former Ghost site at `https://wayfarer.ktz.me/`.
+Astro static copy of `https://wayfarer.ktz.me/`.
 
-## Development
+## Quick Start
 
 ```sh
 npm ci
 npm run dev
 ```
 
-The local development build uses `/content/images/...` from `public/content/images`, which is a local symlink to the extracted Ghost image archive.
-
-## Production
-
-Production images are served from the EU `wayfarer` R2 bucket through:
-
-```sh
-https://assets.wayfarer.ktz.me
-```
-
-Upload the local image archive to R2 with:
-
-```sh
-npm run upload:r2
-```
-
-GitHub Actions builds and deploys `main` to the Cloudflare Pages project `blog-mum`.
-The workflow uses a repository secret named `CLOUDFLARE_API_TOKEN`
-with Cloudflare Pages edit access for account `87f000053c6198ee887e7781685c58f1`.
-
-Build settings:
+Production build:
 
 ```sh
 npm run build:production
 ```
 
-Output directory:
+Push to `main` to publish. GitHub Actions builds with Node `24.18.0` and deploys `dist/` to Cloudflare Pages project `blog-mum`.
+
+## Posts
+
+Edit posts in `src/data/site.json` under `posts`.
+
+Fastest new-post path: copy an existing post object and change `id`, `slug`, `title`, `html`, `plaintext`, `excerpt`, `feature_image`, dates, `author_id`, and `status`.
+
+Missing `status` means published. Use this for drafts:
+
+```json
+"status": "draft"
+```
+
+Drafts are hidden from production pages, RSS, author pages, and post routes. Preview drafts locally with:
 
 ```sh
-dist
+npm run dev:drafts
 ```
+
+To publish a draft, change `"status": "draft"` to `"status": "published"` or remove the field.
+
+## Authors
+
+Authors live in `src/data/site.json` under `authors`.
+
+Each post uses `author_id` to pick an author:
+
+```json
+"author_id": "1"
+```
+
+Current author:
+
+```json
+{ "id": "1", "name": "Ann Kretzschmar", "slug": "ann" }
+```
+
+Author pages are generated from the authors list and only show posts for that author.
+
+## Images
+
+Image source files live outside the repo here:
+
+```sh
+../original/images/
+```
+
+The repo sees them through:
+
+```sh
+public/content/images -> ../../../original/images
+```
+
+For a new image, put the original in a dated folder:
+
+```sh
+../original/images/2026/06/my-photo.jpg
+```
+
+Reference it in posts as:
+
+```txt
+/content/images/2026/06/my-photo.jpg
+```
+
+Then generate/check local responsive copies and upload everything to the EU R2 bucket:
+
+```sh
+npm run fix:images
+npm run check:images
+npm run upload:r2
+```
+
+Production serves images from:
+
+```sh
+https://assets.wayfarer.ktz.me
+```
+
+## Publish Flow
+
+1. Add or edit the post in `src/data/site.json`.
+2. Keep it as `"status": "draft"` while working.
+3. Add images under `../original/images/YYYY/MM/`.
+4. Preview drafts with `npm run dev:drafts`.
+5. Run image prep:
+
+```sh
+npm run fix:images
+npm run check:images
+npm run upload:r2
+```
+
+6. Publish the post by setting `"status": "published"` or removing `status`.
+7. Build locally:
+
+```sh
+npm run build:production
+```
+
+8. Commit and push:
+
+```sh
+git add src/data/site.json
+git commit -m "Publish <post title>"
+git push origin main
+```
+
+GitHub Actions deploys automatically after the push.
+
+## Notes
+
+`npm run import:ghost` re-imports from `../original/ghost.db` and rewrites `src/data/site.json`. Do not use it for normal posting.

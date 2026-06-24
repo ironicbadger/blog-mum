@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { displayDate } from '../../components/dates';
 import { imagePath, imageSrcset, withAssetBase } from '../../components/image';
-import data from '../../data/site.json';
+import { siteData as data } from '../../data/posts';
 
 export function getStaticPaths() {
   return data.posts.map((post) => ({
