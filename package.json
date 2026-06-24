@@ -1,0 +1,23 @@
+{
+  "name": "wayfarer-static",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "build:production": "PUBLIC_ASSET_BASE=https://assets.wayfarer.ktz.me astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "import:ghost": "node scripts/import-ghost.mjs",
+    "check:images": "node scripts/images.mjs check",
+    "fix:images": "node scripts/images.mjs fix",
+    "upload:r2": "node scripts/upload-r2-assets.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.10.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}

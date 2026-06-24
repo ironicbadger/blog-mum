@@ -1,0 +1,83 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { absoluteImage } from '../components/image';
+import data from '../data/site.json';
+
+const site = data.site;
+const {
+  title = site.title,
+  description = site.description,
+  bodyClass = '',
+  canonicalPath = '/',
+  ogType = 'website',
+  ogImage = site.cover_image,
+  isHome = false,
+} = Astro.props;
+
+const canonical = `${site.url}${canonicalPath}`;
+const socialImage = absoluteImage(site.url, ogImage);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{title}</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style is:inline>
+      :root {
+        --button-bg-color: #ffffff;
+        --button-text-color: var(--color-darkgrey);
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=0b8185d02b" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    <meta property="article:publisher" content="https://www.facebook.com/ghost" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:url" content={canonical} />
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    {site.twitter && <meta name="twitter:site" content={site.twitter} />}
+    <meta name="generator" content="Astro static copy of Ghost 4.48" />
+    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <script defer src="/public/cards.min.js?v=0b8185d02b"></script>
+    <style is:inline>:root {--ghost-accent-color: #15171A;}</style>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=0b8185d02b" />
+  </head>
+  <body class={bodyClass}>
+    <div class="viewport">
+      <Header site={site} isHome={isHome} />
+      <div class="site-content">
+        <slot />
+      </div>
+      <Footer site={site} />
+    </div>
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.gh-burger').forEach(function (button) {
+          button.addEventListener('click', function () {
+            document.body.classList.toggle('gh-head-open');
+          });
+          button.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              document.body.classList.toggle('gh-head-open');
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+---
+import { displayDate } from './dates';
+import { imagePath, imageSrcset } from './image';
+
+const { post, author, large = false } = Astro.props;
+const cardClass = `post-card post ${large ? 'post-card-large' : ''}`;
+---
+
+<article class={cardClass}>
+  {post.feature_image && (
+    <a class="post-card-image-link" href={`/${post.slug}/`}>
+      <img
+        class="post-card-image"
+        srcset={imageSrcset(post.feature_image)}
+        sizes="(max-width: 1000px) 400px, 800px"
+        src={imagePath(post.feature_image, 600)}
+        alt={post.title}
+        loading="lazy"
+      />
+    </a>
+  )}
+
+  <div class="post-card-content">
+    <a class="post-card-content-link" href={`/${post.slug}/`}>
+      <header class="post-card-header">
+        <h2 class="post-card-title">{post.title}</h2>
+      </header>
+      <div class="post-card-excerpt">
+        <p>{post.excerpt}</p>
+      </div>
+    </a>
+
+    <footer class="post-card-meta">
+      <ul class="author-list">
+        <li class="author-list-item">
+          <a href={`/author/${author.slug}/`} class="static-avatar">
+            <img class="author-profile-image" src={imagePath(author.profile_image, 100)} alt={author.name} loading="lazy" />
+          </a>
+        </li>
+      </ul>
+      <div class="post-card-byline-content">
+        <span class="post-card-byline-author"><a href={`/author/${author.slug}/`}>{author.name}</a></span>
+        <span class="post-card-byline-date"><time datetime={post.published_date}>{displayDate(post.published_date)}</time> <span class="bull">&bull;</span> {post.reading_minutes} min read</span>
+      </div>
+    </footer>
+  </div>
+</article>

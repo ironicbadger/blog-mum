@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { imagePath, imageSrcset } from '../components/image';
+import data from '../data/site.json';
+
+const { site, posts, authors } = data;
+const authorById = Object.fromEntries(authors.map((author) => [author.id, author]));
+---
+
+<BaseLayout title={site.title} description={site.description} bodyClass="home-template" canonicalPath="/" ogType="website" ogImage={site.cover_image} isHome>
+  <div class="site-header-content">
+    {site.cover_image && (
+      <img
+        class="site-header-cover"
+        srcset={imageSrcset(site.cover_image)}
+        sizes="100vw"
+        src={imagePath(site.cover_image, 2000)}
+        alt=""
+      />
+    )}
+    <h1 class="site-title">{site.title}</h1>
+    <p>{site.description}</p>
+  </div>
+
+  <main id="site-main" class="site-main outer">
+    <div class="inner posts">
+      <div class="post-feed">
+        {posts.map((post, index) => (
+          <PostCard post={post} author={authorById[post.author_id]} large={index === 0} />
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>
