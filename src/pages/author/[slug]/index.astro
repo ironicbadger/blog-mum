@@ -8,7 +8,6 @@ export function getStaticPaths() {
   const author = data.authors.find((item) => item.slug === 'ann') || data.authors[0];
   return [
     { params: { slug: author.slug }, props: { author } },
-    { params: { slug: 'ghost' }, props: { author } },
   ];
 }
 

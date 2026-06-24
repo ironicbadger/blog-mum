@@ -7,8 +7,8 @@
     "icon": null,
     "logo": null,
     "accent_color": "#15171A",
-    "facebook": "ghost",
-    "twitter": "@tryghost",
+    "facebook": null,
+    "twitter": null,
     "navigation": [
       {
         "label": "Home",
@@ -16,7 +16,7 @@
       },
       {
         "label": "Author",
-        "url": "/author/ghost/"
+        "url": "/author/ann/"
       }
     ],
     "secondary_navigation": [],

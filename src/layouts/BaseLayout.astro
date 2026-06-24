@@ -43,14 +43,12 @@ const socialImage = absoluteImage(site.url, ogImage);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     {socialImage && <meta property="og:image" content={socialImage} />}
-    <meta property="article:publisher" content="https://www.facebook.com/ghost" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:url" content={canonical} />
     {socialImage && <meta name="twitter:image" content={socialImage} />}
-    {site.twitter && <meta name="twitter:site" content={site.twitter} />}
-    <meta name="generator" content="Astro static copy of Ghost 4.48" />
+    <meta name="generator" content="Astro static site" />
     <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
     <script defer src="/public/cards.min.js?v=0b8185d02b"></script>
     <style is:inline>:root {--ghost-accent-color: #15171A;}</style>
